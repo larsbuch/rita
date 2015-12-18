@@ -1,0 +1,115 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProductVersion>9.0.30729</ProductVersion>
+    <SchemaVersion>2.0</SchemaVersion>
+    <ProjectGuid>{2424472F-CDA1-47DE-B41E-B26E3D882B56}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>ChronographedTaskExtension</RootNamespace>
+    <AssemblyName>ChronographedTaskExtension</AssemblyName>
+    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <FileUpgradeFlags>
+    </FileUpgradeFlags>
+    <UpgradeBackupLocation>
+    </UpgradeBackupLocation>
+    <OldToolsVersion>3.5</OldToolsVersion>
+    <SccProjectName>SAK</SccProjectName>
+    <SccLocalPath>SAK</SccLocalPath>
+    <SccAuxPath>SAK</SccAuxPath>
+    <SccProvider>SAK</SccProvider>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="Common.Logging, Version=1.2.0.0, Culture=neutral, PublicKeyToken=af08829b84f0328e">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ExternalComponents\Common.Logging.dll</HintPath>
+    </Reference>
+    <Reference Include="Quartz, Version=1.0.0.2, Culture=neutral, PublicKeyToken=f6b8c98a402cc8a4, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ExternalComponents\Quartz.dll</HintPath>
+    </Reference>
+    <Reference Include="Spring.Core, Version=1.2.0.20313, Culture=neutral, PublicKeyToken=65e474d141e25e07, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\ExternalComponents\Spring.Core.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Xml.Linq">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data.DataSetExtensions">
+      <RequiredTargetFramework>3.5</RequiredTargetFramework>
+    </Reference>
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="FactoryHelper.cs" />
+    <Compile Include="GlobalVariables.cs" />
+    <Compile Include="JobRunnerDummy.cs" />
+    <Compile Include="VariableImplementations\BooleanPHVariable.cs" />
+    <Compile Include="VariableImplementations\BooleanVariable.cs" />
+    <Compile Include="VariableImplementations\IntegerPHVariable.cs" />
+    <Compile Include="VariableImplementations\ListOfStringPHVariable.cs" />
+    <Compile Include="VariableImplementations\DateTimePHVariable.cs" />
+    <Compile Include="VariableImplementations\DateTimeVariable.cs" />
+    <Compile Include="VariableImplementations\IntegerVariable.cs" />
+    <Compile Include="JobRunnerFactory.cs" />
+    <Compile Include="JobScheduleFactory.cs" />
+    <Compile Include="JobTriggerFactory.cs" />
+    <Compile Include="MainFactory.cs" />
+    <Compile Include="JobRunner.cs" />
+    <Compile Include="JobSchedule.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SystemLogger.cs" />
+    <Compile Include="TaskConfiguration.cs" />
+    <Compile Include="TaskExecutionContext.cs" />
+    <Compile Include="TaskFactory.cs" />
+    <Compile Include="JobRunnerHelper.cs" />
+    <Compile Include="TaskLogger.cs" />
+    <Compile Include="TaskTemplateWriter.cs" />
+    <Compile Include="TriggerConfiguration.cs" />
+    <Compile Include="VariableConfiguration.cs" />
+    <Compile Include="VariableFactory.cs" />
+    <Compile Include="VariableImplementations\ListOfStringVariable.cs" />
+    <Compile Include="VariableImplementations\StringPHVariable.cs" />
+    <Compile Include="VariableImplementations\StringVariable.cs" />
+    <Compile Include="VariablePersister.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\RukisIntegrationTaskhandlerInterface\RapidIntegrationTaskApplicationInterface.csproj">
+      <Project>{5CAE7CAC-7E23-4419-8BAD-29D268F4BCE1}</Project>
+      <Name>RapidIntegrationTaskApplicationInterface</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

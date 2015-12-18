@@ -1,0 +1,164 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<jobschedules xmlns="RukisIntegrationTaskhandler.jobschedules">
+  <!-- START OF SCHEMA -->
+  <xsd:shema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="RukisIntegrationTaskhandler.jobschedules">
+    <xsd:element name="jobschedules">
+      <xsd:complexType>
+        <xsd:sequence>
+          <xsd:element ref="jobschedule" />
+        </xsd:sequence>
+      </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="jobschedule">
+      <xsd:complexType>
+        <xsd:sequence>
+          <xsd:element ref="tasks" minOccurs="1" maxOccurs="1" />
+          <xsd:element ref="errortasks" minOccurs="1" maxOccurs="1" />
+          <xsd:element ref="triggers" minOccurs="1" maxOccurs="1" />
+        </xsd:sequence>
+        <xsd:attribute name="jobname" type="xsd:string" use="required" />
+        <xsd:attribute name="retryinterval" type="xsd:int" use="required" />
+        <xsd:attribute name="maxretry" type="xsd:int" use="required" />
+      </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="tasks">
+      <xsd:complexType>
+        <xsd:sequence>
+          <xsd:element ref="task" />
+        </xsd:sequence>
+      </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="errortasks">
+      <xsd:complexType>
+        <xsd:sequence>
+          <xsd:element ref="task" />
+        </xsd:sequence>
+      </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="triggers">
+      <xsd:complexType>
+        <xsd:sequence>
+          <xsd:element ref="trigger" />
+        </xsd:sequence>
+      </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="task">
+      <xsd:complexType>
+        <xsd:sequence>
+          <xsd:element ref="variables" minOccurs="1" maxOccurs="1" />
+          <xsd:element ref="subtasks" minOccurs="1" maxOccurs="1" />
+        </xsd:sequence>
+        <xsd:attribute name="taskname" type="xsd:string" use="required" />
+        <xsd:attribute name="taskclassname" type="xsd:string" use="required" />
+      </xsd:complexType>
+    </xsd:element>
+    
+    <xsd:element name="trigger">
+      <xsd:complexType>
+        <xsd:attribute name="triggertype" type="xsd:string" use="required" />
+        <xsd:attribute name="value" type="xsd:string" use="required" />
+        <xsd:attribute name="startutcdate" type="xsd:dateTime" use="optional" />
+        <xsd:attribute name="stoputcdate" type="xsd:dateTime" use="optional" />
+      </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="variables">
+      <xsd:complexType>
+        <xsd:sequence>
+          <xsd:element ref="variable" />
+        </xsd:sequence>
+      </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="subtasks">
+      <xsd:complexType>
+        <xsd:sequence>
+          <xsd:element ref="task" />
+        </xsd:sequence>
+      </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="variable">
+      <xsd:complexType>
+        <xsd:sequence>
+          <xsd:element ref="variablevalue" />
+        </xsd:sequence>
+        <xsd:attribute name="variablename" type="xsd:string" use="required" />
+        <xsd:attribute name="variabletype" type="xsd:string" use="required" />
+        <xsd:attribute name="persisted" type="xsd:boolean" use="optional" />
+      </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="variablevalue">
+      <xsd:complexType>
+        <xsd:attribute name="value" type="xsd:string" use="required" />
+      </xsd:complexType>
+    </xsd:element>
+    
+  </xsd:shema>
+  <!-- END OF SCHEMA -->
+
+  <jobschedule jobname="Startup" retryinterval="2" maxretry="5">
+    <tasks>
+      <task taskname="NullTask" taskclassname="BasicTasks.NullTask">
+        <variables>
+          <variable variablename="IgnoredInteger" variabletype="Integer" persisted="true">
+            <variablevalue value="0" />
+            <!-- Insert more values here -->
+          </variable>
+          <!-- Insert more varables here -->
+        </variables>
+        <subtasks>
+          <!-- Insert subtasks here -->
+        </subtasks>
+      </task>
+      <task taskname="VariableTest" taskclassname="BasicTasks.NullTask">
+        <variables>
+          <variable variablename="ConnectionString" variabletype="String" persisted="False">
+            <variablevalue value="String variable Value" />
+          </variable>
+          <variable variablename="DateTimeTest" variabletype="DateTime" persisted="True">
+            <variablevalue value="2009-06-13T13:45" />
+          </variable>
+          <variable variablename="StringListTest" variabletype="ListOfString" persisted="False">
+            <variablevalue value="List Line 1" />
+            <variablevalue value="List Line 2" />
+            <variablevalue value="List Line 3" />
+            <variablevalue value="List Line 4" />
+          </variable>
+          <variable variablename="IntegerTest" variabletype="Integer" persisted="True">
+            <variablevalue value="5" />
+          </variable>
+        </variables>
+        <subtasks>
+        </subtasks>
+      </task>
+      <!-- Insert more tasks here -->
+    </tasks>
+    <errortasks>
+      <task taskname="ErrorNullTask" taskclassname="BasicTasks.NullTask">
+        <variables>
+          <variable variablename="IgnoredInteger" variabletype="Integer" persisted ="false">
+            <variablevalue value="0" />
+            <!-- Insert more values here -->
+          </variable>
+          <!-- Insert more varables here -->
+        </variables>
+        <subtasks>
+          <!-- Insert subtasks here -->
+        </subtasks>
+      </task>
+      <!-- Insert more tasks here -->
+    </errortasks>
+    <triggers>
+      <trigger triggertype="WeeklyTrigger" value="Tuesday:20:37" startutcdate="2009-01-01T15:49" stoputcdate=""  />
+      <!-- Insert more triggers here -->
+    </triggers>
+  </jobschedule>
+  <!-- Insert more jobschedules here -->
+</jobschedules>

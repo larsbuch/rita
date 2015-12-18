@@ -1,0 +1,59 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 14
+VisualStudioVersion = 14.0.24720.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{6305B82A-BE5A-48E0-B39E-0C251B106299}"
+	ProjectSection(SolutionItems) = preProject
+		ExternalComponents\antlr.runtime.dll = ExternalComponents\antlr.runtime.dll
+		ExternalComponents\Common.Logging.dll = ExternalComponents\Common.Logging.dll
+		ExternalComponents\Common.Logging.Log4Net.dll = ExternalComponents\Common.Logging.Log4Net.dll
+		ExternalComponents\log4net.dll = ExternalComponents\log4net.dll
+		ExternalComponents\Quartz.dll = ExternalComponents\Quartz.dll
+		ExternalComponents\Spring.Aop.dll = ExternalComponents\Spring.Aop.dll
+		ExternalComponents\Spring.Core.dll = ExternalComponents\Spring.Core.dll
+		ExternalComponents\Spring.Data.dll = ExternalComponents\Spring.Data.dll
+		ExternalComponents\Spring.Scheduling.Quartz.dll = ExternalComponents\Spring.Scheduling.Quartz.dll
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RapidIntegrationTaskApplication", "RapidIntegrationTaskApplication\RapidIntegrationTaskApplication.csproj", "{D460C8BB-C80F-461B-98A6-F4F08FB1E7BE}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RapidIntegrationTaskApplicationInterface", "RapidIntegrationTaskApplicationInterface\RapidIntegrationTaskApplicationInterface.csproj", "{5CAE7CAC-7E23-4419-8BAD-29D268F4BCE1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RapidIntegrationTaskApplicationExtension", "RapidIntegrationTaskApplicationExtension\RapidIntegrationTaskApplicationExtension.csproj", "{2424472F-CDA1-47DE-B41E-B26E3D882B56}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BasicTasks", "BasicTasks\BasicTasks.csproj", "{8D464E29-2731-4EB6-B148-2291ED6E5E6C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GeneralTasks", "GeneralTasks\GeneralTasks.csproj", "{B0F14C8B-D038-4883-A100-7137D9ED8EB3}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{D460C8BB-C80F-461B-98A6-F4F08FB1E7BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D460C8BB-C80F-461B-98A6-F4F08FB1E7BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D460C8BB-C80F-461B-98A6-F4F08FB1E7BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D460C8BB-C80F-461B-98A6-F4F08FB1E7BE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5CAE7CAC-7E23-4419-8BAD-29D268F4BCE1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5CAE7CAC-7E23-4419-8BAD-29D268F4BCE1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5CAE7CAC-7E23-4419-8BAD-29D268F4BCE1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5CAE7CAC-7E23-4419-8BAD-29D268F4BCE1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2424472F-CDA1-47DE-B41E-B26E3D882B56}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2424472F-CDA1-47DE-B41E-B26E3D882B56}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2424472F-CDA1-47DE-B41E-B26E3D882B56}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2424472F-CDA1-47DE-B41E-B26E3D882B56}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8D464E29-2731-4EB6-B148-2291ED6E5E6C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8D464E29-2731-4EB6-B148-2291ED6E5E6C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8D464E29-2731-4EB6-B148-2291ED6E5E6C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8D464E29-2731-4EB6-B148-2291ED6E5E6C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B0F14C8B-D038-4883-A100-7137D9ED8EB3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B0F14C8B-D038-4883-A100-7137D9ED8EB3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B0F14C8B-D038-4883-A100-7137D9ED8EB3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B0F14C8B-D038-4883-A100-7137D9ED8EB3}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
