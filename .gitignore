@@ -5,3 +5,7 @@ RapidIntegrationTaskApplication/bin/
 RapidIntegrationTaskApplication/obj/
 /packages
 /RapidIntegrationTaskApplicationInterface/obj
+BasicTasks/job_scheduling_data_2_0.xsd
+RapidIntegrationTaskApplication/job_scheduling_data_2_0.xsd
+RapidIntegrationTaskApplicationExtension/job_scheduling_data_2_0.xsd
+RapidIntegrationTaskApplicationInterface/job_scheduling_data_2_0.xsd
