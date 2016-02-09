@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using RukisIntegrationTaskhandlerInterface;
-using RukisIntegrationTaskhandlerInterface.Enumerations;
-using RukisIntegrationTaskhandlerInterface.Exceptions;
-using RukisIntegrationTaskhandlerInterface.Variables;
+using RapidIntegrationTaskApplicationInterface;
+using RapidIntegrationTaskApplicationInterface.Enumerations;
+using RapidIntegrationTaskApplicationInterface.Exceptions;
+using RapidIntegrationTaskApplicationInterface.Variables;
 
-namespace RukisIntegrationTaskhandlerExtension.VariableImplementations
+namespace RapidIntegrationTaskApplicationExtension.VariableImplementations
 {
     [Serializable]
     public class DateTimePHVariable : IDateTimeVariable, IPlaceHolderVariable
@@ -26,7 +26,7 @@ namespace RukisIntegrationTaskhandlerExtension.VariableImplementations
             }
             else
             {
-                throw new RukisIntegrationTaskhandlerException("Not IDateTimeVariable");
+                throw new RapidIntegrationTaskApplicationException("Not IDateTimeVariable");
             }
         }
 

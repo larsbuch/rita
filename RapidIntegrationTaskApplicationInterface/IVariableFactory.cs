@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml;
-using RukisIntegrationTaskhandlerInterface.Enumerations;
-using RukisIntegrationTaskhandlerInterface.Variables;
+using RapidIntegrationTaskApplicationInterface.Enumerations;
+using RapidIntegrationTaskApplicationInterface.Variables;
 
-namespace RukisIntegrationTaskhandlerInterface
+namespace RapidIntegrationTaskApplicationInterface
 {
     public interface IVariableFactory
     {

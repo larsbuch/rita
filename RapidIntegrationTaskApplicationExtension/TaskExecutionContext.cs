@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using RukisIntegrationTaskhandlerInterface;
-using RukisIntegrationTaskhandlerInterface.Constants;
-using RukisIntegrationTaskhandlerInterface.Exceptions;
+using RapidIntegrationTaskApplicationInterface;
+using RapidIntegrationTaskApplicationInterface.Constants;
+using RapidIntegrationTaskApplicationInterface.Exceptions;
 
-namespace RukisIntegrationTaskhandlerExtension
+namespace RapidIntegrationTaskApplicationExtension
 {
     public class TaskExecutionContext:ITaskExecutionContext
     {

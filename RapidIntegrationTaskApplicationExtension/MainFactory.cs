@@ -2,65 +2,88 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using RukisIntegrationTaskhandlerInterface;
-using RukisIntegrationTaskhandlerInterface.Constants;
-using RukisIntegrationTaskhandlerInterface.Exceptions;
+using RapidIntegrationTaskApplicationInterface;
+using RapidIntegrationTaskApplicationInterface.Constants;
+using RapidIntegrationTaskApplicationInterface.Exceptions;
 using Common.Logging;
 using Quartz;
 using Quartz.Impl;
-using Spring.Context;
-using Spring.Context.Support;
+using Autofac;
 
-namespace RukisIntegrationTaskhandlerExtension
+namespace RapidIntegrationTaskApplicationExtension
 {
     public class MainFactory:IMainFactory
     {
-        private static IMainFactory _mainFactory;
 
-        private MainFactory()
-        {
-                configureFactory();
-        }
+        #region Static
 
-        public static IMainFactory Current
+        private static Dictionary<string, IMainFactory> _mainFactories;
+
+        private static Dictionary<string, IMainFactory> MainFactoryList
         {
             get
             {
-                if (_mainFactory == null)
+                if (_mainFactories == null)
                 {
-                    _mainFactory = new MainFactory();
+                    _mainFactories = new Dictionary<string, IMainFactory>();
                 }
-                return _mainFactory;
+                return _mainFactories;
             }
+        }
+
+        public static IMainFactory GetMainFactory(string lifetimeName)
+        {
+            IMainFactory mainFactory;
+            if (MainFactoryList.TryGetValue(lifetimeName, out mainFactory))
+            {
+                return mainFactory;
+            }
+            else
+            {
+                mainFactory = new MainFactory(lifetimeName);
+                MainFactoryList.Add(lifetimeName, mainFactory);
+                return mainFactory;
+            }
+        }
+
+        #endregion
+
+        private MainFactory(string lifetimeName)
+        {
+            _lifetimeName = lifetimeName;
+            buildIoC();
+            configureFactory();
+        }
+
+        private void buildIoC()
+        {
+            var builder = new ContainerBuilder();
+            builder.RegisterType<StdSchedulerFactory>().As<ISchedulerFactory>();
+            builder.RegisterType<SystemLogger>().As<ISystemLogger>();
+            builder.RegisterType<TaskLogger>().As<ITaskLogger>();
+            builder.RegisterType<JobScheduleFactory>().As<IJobScheduleFactory>();
+            builder.RegisterType<JobRunnerFactory>().As<IJobRunnerFactory>();
+            builder.RegisterType<TaskFactory>().As<ITaskFactory>();
+            builder.RegisterType<JobTriggerFactory>().As<IJobTriggerFactory>();
+            builder.RegisterType<VariableFactory>().As<IVariableFactory>();
+            builder.RegisterType<TaskTemplateWriter>().As<ITaskTemplateWriter>();
+            builder.RegisterType<VariablePersister>().As<IVariablePersister>();
+            _iocContainer = builder.Build();
         }
 
         private void configureFactory()
         {
-            IApplicationContext applicationContext = ContextRegistry.GetContext();
-            ISchedulerFactory scheduleFactory =
-                (ISchedulerFactory)
-                applicationContext.GetObject(FactoryIoC.QuartzSchedulerFactory, typeof(ISchedulerFactory));
+            ISchedulerFactory scheduleFactory = _iocContainer.Resolve<ISchedulerFactory>();
             _scheduler = scheduleFactory.GetScheduler();
-            _systemLogger =
-                (ISystemLogger)applicationContext.GetObject(FactoryIoC.SystemLogger, typeof(ISystemLogger));
-            _taskLogger =
-                (ITaskLogger)applicationContext.GetObject(FactoryIoC.TaskLogger, typeof(ITaskLogger));
-            _jobScheduleFactory =
-                (IJobScheduleFactory)
-                applicationContext.GetObject(FactoryIoC.JobScheduleFactory, typeof(IJobScheduleFactory));
-            _jobRunnerFactory =
-                (IJobRunnerFactory)
-                applicationContext.GetObject(FactoryIoC.JobRunnerFactory, typeof(IJobRunnerFactory));
-            _taskFactory = (ITaskFactory)
-                           applicationContext.GetObject(FactoryIoC.TaskFactory, typeof(ITaskFactory));
-            _jobTriggerFactory = (IJobTriggerFactory)applicationContext.GetObject(FactoryIoC.JobTriggerFactory, typeof(IJobTriggerFactory));
-            _variableFactory = (IVariableFactory)applicationContext.GetObject(FactoryIoC.VariableFactory, typeof(IVariableFactory));
-            _taskTemplateWriter =
-                (ITaskTemplateWriter)
-                applicationContext.GetObject(FactoryIoC.TaskTemplateWriter, typeof(ITaskTemplateWriter));
-            _variablePersister =
-                (IVariablePersister)
-                applicationContext.GetObject(FactoryIoC.VariablePersister, typeof(IVariablePersister));
+            _systemLogger = _iocContainer.Resolve<ISystemLogger>();
+            _taskLogger = _iocContainer.Resolve<ITaskLogger>();
+            _jobScheduleFactory = _iocContainer.Resolve<IJobScheduleFactory>();
+            _jobRunnerFactory = _iocContainer.Resolve<IJobRunnerFactory>();
+            _taskFactory = _iocContainer.Resolve<ITaskFactory>();
+            _jobTriggerFactory = _iocContainer.Resolve<IJobTriggerFactory>();
+            _variableFactory = _iocContainer.Resolve<IVariableFactory>();
+            _taskTemplateWriter = _iocContainer.Resolve<ITaskTemplateWriter>();
+            _variablePersister = _iocContainer.Resolve<IVariablePersister>();
 
             // Set main factory
             _jobScheduleFactory.MainFactory = this;
@@ -70,6 +93,7 @@ namespace RukisIntegrationTaskhandlerExtension
             _variableFactory.MainFactory = this;
         }
 
+        private string _lifetimeName;
         private IJobTriggerFactory _jobTriggerFactory;
         private  IJobScheduleFactory _jobScheduleFactory;
         private  IJobRunnerFactory _jobRunnerFactory;
@@ -80,6 +104,25 @@ namespace RukisIntegrationTaskhandlerExtension
         private IVariableFactory _variableFactory;
         private ITaskTemplateWriter _taskTemplateWriter;
         private IVariablePersister _variablePersister;
+        private IContainer _iocContainer;
+
+        #region Properties
+
+        public IContainer IoCContainer
+        {
+            get
+            {
+                return _iocContainer;
+            }
+        }
+
+        public string LifetimeName
+        {
+            get
+            {
+                return _lifetimeName;
+            }
+        }
 
         public IVariablePersister VariablePersister
         {
@@ -153,6 +196,8 @@ namespace RukisIntegrationTaskhandlerExtension
             }
         }
 
+        #endregion
+
         public void loadAndConfigureFactory()
         {
             SystemLogger.logServiceStart();
@@ -183,11 +228,11 @@ namespace RukisIntegrationTaskhandlerExtension
 
         }
 
-        public void unloadFactory()
+        public void Dispose()
         {
             Scheduler.Shutdown();
             SystemLogger.logServiceStop();
-            _mainFactory = null;
+            _mainFactories.Remove(LifetimeName);
         }
 
         private void registerSchedules()
@@ -197,21 +242,21 @@ namespace RukisIntegrationTaskhandlerExtension
                 List<IJobSchedule> jobSchedules = JobScheduleFactory.getJobSchedules();
                 foreach (IJobSchedule jobSchedule in jobSchedules)
                 {
-                    JobDetail jobDetail = JobRunnerFactory.getNewJobRunner(jobSchedule);
+                    IJobDetail jobDetail = JobRunnerFactory.getNewJobRunner(jobSchedule);
 
-                    List<Trigger> jobTriggers = JobTriggerFactory.getJobTriggers(jobSchedule.getTriggerConfigurations());
+                    List<ITrigger> jobTriggers = JobTriggerFactory.getJobTriggers(jobSchedule.getTriggerConfigurations());
 
-                    foreach (Trigger jobTrigger in jobTriggers)
+                    foreach (ITrigger jobTrigger in jobTriggers)
                     {
                         Scheduler.ScheduleJob(jobDetail, jobTrigger);
-                        SystemLogger.logScheduleStarted(jobDetail.Name, jobTrigger.Name, jobTrigger.GetNextFireTimeUtc());
+                        SystemLogger.logScheduleStarted(jobDetail.Key.Name, jobTrigger.Key.Name, jobTrigger.GetNextFireTimeUtc());
                     }
                 }
             }
             catch (Exception e)
             {
                 SystemLogger.logRegisteringSchedulesError(e);
-                throw new RukisIntegrationTaskhandlerException("Error occured while registering schedules", e);
+                throw new RapidIntegrationTaskApplicationException("Error occured while registering schedules", e);
             }
         }
 

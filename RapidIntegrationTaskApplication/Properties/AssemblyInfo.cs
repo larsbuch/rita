@@ -5,12 +5,12 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("Chronographed Task")]
-[assembly: AssemblyDescription("Service for Scheduling tasks by editing XML")]
+[assembly: AssemblyTitle("RITA: Rapid Integration Task Application")]
+[assembly: AssemblyDescription("Service for Scheduling TPL Dataflow tasks")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("RukisIntegrationTaskhandler")]
-[assembly: AssemblyCopyright("Copyright ©  2014")]
+[assembly: AssemblyCompany("Applied-Intelligence IVS, Denmark")]
+[assembly: AssemblyProduct("RapidIntegrationTaskApplication")]
+[assembly: AssemblyCopyright("Copyright ©  2016")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]
 

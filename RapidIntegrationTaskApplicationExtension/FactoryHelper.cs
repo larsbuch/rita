@@ -6,13 +6,13 @@ using System.Linq;
 using System.Text;
 using System.Xml;
 using System.Xml.Schema;
-using RukisIntegrationTaskhandlerInterface;
-using RukisIntegrationTaskhandlerInterface.Constants;
-using RukisIntegrationTaskhandlerInterface.Enumerations;
-using RukisIntegrationTaskhandlerInterface.Exceptions;
-using RukisIntegrationTaskhandlerInterface.Variables;
+using RapidIntegrationTaskApplicationInterface;
+using RapidIntegrationTaskApplicationInterface.Constants;
+using RapidIntegrationTaskApplicationInterface.Enumerations;
+using RapidIntegrationTaskApplicationInterface.Exceptions;
+using RapidIntegrationTaskApplicationInterface.Variables;
 
-namespace RukisIntegrationTaskhandlerExtension
+namespace RapidIntegrationTaskApplicationExtension
 {
     public static class FactoryHelper
     {
@@ -25,7 +25,7 @@ namespace RukisIntegrationTaskhandlerExtension
             {
                 if (!File.Exists(xmlDocumentPlacement))
                 {
-                    throw new RukisIntegrationTaskhandlerException(string.Format("The file {0} does not exists",xmlDocumentPlacement));
+                    throw new RapidIntegrationTaskApplicationException(string.Format("The file {0} does not exists",xmlDocumentPlacement));
                 }
                 if (validate)
                 {
@@ -47,13 +47,13 @@ namespace RukisIntegrationTaskhandlerExtension
                 xmlDocument.Load(reader);
                 return xmlDocument;
             }
-                catch(RukisIntegrationTaskhandlerException)
+                catch(RapidIntegrationTaskApplicationException)
                 {
                     throw;
                 }
             catch (Exception e)
             {
-                throw new RukisIntegrationTaskhandlerException(String.Format("Could not read file {1} in directory {0}", directoryName, fileName), e);
+                throw new RapidIntegrationTaskApplicationException(String.Format("Could not read file {1} in directory {0}", directoryName, fileName), e);
             }
         }
 
@@ -72,7 +72,7 @@ namespace RukisIntegrationTaskhandlerExtension
             }
             catch (Exception e)
             {
-                throw new RukisIntegrationTaskhandlerException(String.Format("Could not write file {1} in directory {0}", directoryName, fileName), e);
+                throw new RapidIntegrationTaskApplicationException(String.Format("Could not write file {1} in directory {0}", directoryName, fileName), e);
             }
         }
 
@@ -95,7 +95,7 @@ namespace RukisIntegrationTaskhandlerExtension
             if (!DateTime.TryParseExact(dateTimeString, Misc.DateTimeFormat, CultureInfo.InvariantCulture,
                                    DateTimeStyles.AssumeUniversal, out tempDateTime) && throwException)
             {
-                throw new RukisIntegrationTaskhandlerException(string.Format("Cannot parse {0} in the format {1}",dateTimeString,Misc.DateTimeFormat));
+                throw new RapidIntegrationTaskApplicationException(string.Format("Cannot parse {0} in the format {1}",dateTimeString,Misc.DateTimeFormat));
             }
             return tempDateTime;
         }

@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using RukisIntegrationTaskhandlerInterface;
-using RukisIntegrationTaskhandlerInterface.Exceptions;
+using RapidIntegrationTaskApplicationInterface;
+using RapidIntegrationTaskApplicationInterface.Exceptions;
 using Quartz;
 
-namespace RukisIntegrationTaskhandlerExtension
+namespace RapidIntegrationTaskApplicationExtension
 {
     public class JobRunnerDummy : IJobRunner
     {
-        public void Execute(JobExecutionContext context)
+        public void Execute(IJobExecutionContext context)
         {
             throw new JobRunnerException(JobName, "Execute", "Executing is not allowed");
         }

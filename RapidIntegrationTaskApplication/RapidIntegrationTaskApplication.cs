@@ -6,18 +6,24 @@ using System.Diagnostics;
 using System.Linq;
 using System.ServiceProcess;
 using System.Text;
-using RukisIntegrationTaskhandlerExtension;
-using RukisIntegrationTaskhandlerInterface;
+using RapidIntegrationTaskApplicationExtension;
+using RapidIntegrationTaskApplicationInterface;
 using Common.Logging;
 using Quartz;
 
-namespace RukisIntegrationTaskhandler
+namespace RapidIntegrationTaskApplication
 {
-    public partial class RukisIntegrationTaskhandlerService : ServiceBase
+    public partial class RapidIntegrationTaskApplicationService : ServiceBase
     {
-        protected IMainFactory Factory { get { return MainFactory.Current; } }
+        protected IMainFactory Factory
+        {
+            get
+            {
+                return MainFactory.GetMainFactory("MainService");
+            }
+        }
 
-        public RukisIntegrationTaskhandlerService()
+        public RapidIntegrationTaskApplicationService()
         {
             InitializeComponent();
         }
@@ -29,7 +35,7 @@ namespace RukisIntegrationTaskhandler
 
         protected override void OnStop()
         {
-            Factory.unloadFactory();
+            Factory.Dispose();
         }
     }
 }

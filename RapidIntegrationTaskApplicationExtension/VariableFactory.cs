@@ -5,16 +5,16 @@ using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
 using System.Xml;
-using RukisIntegrationTaskhandlerExtension.VariableImplementations;
-using RukisIntegrationTaskhandlerInterface;
-using RukisIntegrationTaskhandlerInterface.Constants;
-using RukisIntegrationTaskhandlerInterface.Enumerations;
-using RukisIntegrationTaskhandlerInterface.Exceptions;
-using RukisIntegrationTaskhandlerInterface.Variables;
+using RapidIntegrationTaskApplicationExtension.VariableImplementations;
+using RapidIntegrationTaskApplicationInterface;
+using RapidIntegrationTaskApplicationInterface.Constants;
+using RapidIntegrationTaskApplicationInterface.Enumerations;
+using RapidIntegrationTaskApplicationInterface.Exceptions;
+using RapidIntegrationTaskApplicationInterface.Variables;
 using Common.Logging;
 using Quartz;
 
-namespace RukisIntegrationTaskhandlerExtension
+namespace RapidIntegrationTaskApplicationExtension
 {
     public class VariableFactory : IVariableFactory
     {

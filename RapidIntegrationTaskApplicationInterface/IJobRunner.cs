@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using Quartz;
 
-namespace RukisIntegrationTaskhandlerInterface
+namespace RapidIntegrationTaskApplicationInterface
 {
     public interface IJobRunner:IJob
     {

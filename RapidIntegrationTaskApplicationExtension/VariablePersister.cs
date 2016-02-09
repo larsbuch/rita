@@ -4,14 +4,14 @@ using System.IO;
 using System.Linq;
 using System.Runtime.Serialization.Formatters.Binary;
 using System.Text;
-using RukisIntegrationTaskhandlerInterface;
-using RukisIntegrationTaskhandlerInterface.Constants;
-using RukisIntegrationTaskhandlerInterface.Enumerations;
-using RukisIntegrationTaskhandlerInterface.Exceptions;
-using RukisIntegrationTaskhandlerInterface.Variables;
+using RapidIntegrationTaskApplicationInterface;
+using RapidIntegrationTaskApplicationInterface.Constants;
+using RapidIntegrationTaskApplicationInterface.Enumerations;
+using RapidIntegrationTaskApplicationInterface.Exceptions;
+using RapidIntegrationTaskApplicationInterface.Variables;
 using Common.Logging;
 
-namespace RukisIntegrationTaskhandlerExtension
+namespace RapidIntegrationTaskApplicationExtension
 {
     public class VariablePersister:IVariablePersister
     {
@@ -67,7 +67,7 @@ namespace RukisIntegrationTaskhandlerExtension
                 }
                 catch (IOException e)
                 {
-                    throw new RukisIntegrationTaskhandlerException(
+                    throw new RapidIntegrationTaskApplicationException(
                         string.Format("Deserializing file {0} failed", Misc.PersistedVariablesFile), e);
                 }
             }
@@ -106,7 +106,7 @@ namespace RukisIntegrationTaskhandlerExtension
             }
             catch (IOException e)
             {
-                throw new RukisIntegrationTaskhandlerException(
+                throw new RapidIntegrationTaskApplicationException(
                     string.Format("Serializing file {0} failed", Misc.PersistedVariablesFile), e);
             }
         }

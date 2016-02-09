@@ -2,28 +2,29 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using RukisIntegrationTaskhandlerInterface;
-using RukisIntegrationTaskhandlerInterface.Constants;
-using RukisIntegrationTaskhandlerInterface.Exceptions;
+using RapidIntegrationTaskApplicationInterface;
+using RapidIntegrationTaskApplicationInterface.Constants;
+using RapidIntegrationTaskApplicationInterface.Exceptions;
 using Common.Logging;
 using Quartz;
 
-namespace RukisIntegrationTaskhandlerExtension
+namespace RapidIntegrationTaskApplicationExtension
 {
     public class JobRunner:IJobRunner
     {
         private ITaskLogger _taskLogger = null;
         private ISystemLogger _systemLogger = null;
-        private JobExecutionContext _jobExecutionContext = null;
+        private IJobExecutionContext _jobExecutionContext = null;
 
-        public void Execute(JobExecutionContext context)
+        public void Execute(IJobExecutionContext context)
         {
             try
             {
                 // Set initial values
                 _jobExecutionContext = context;
-                _taskLogger = MainFactory.Current.TaskLogger;
-                _systemLogger = MainFactory.Current.SystemLogger;
+                IMainFactory mainFactory = MainFactory.GetMainFactory(LifetimeName);
+                _taskLogger = mainFactory.TaskLogger;
+                _systemLogger = mainFactory.SystemLogger;
 
                 string jobName = JobRunnerHelper.getJobName(context);
 
@@ -36,8 +37,8 @@ namespace RukisIntegrationTaskhandlerExtension
 
                 ITaskExecutionContext taskExecutionContext = new TaskExecutionContext(this, startAtTask);
 
-                ITask task = MainFactory.Current.TaskFactory.buildTask(this,taskConfiguration);
-                ITask errorTask = MainFactory.Current.TaskFactory.buildTask(this,errorTaskConfiguration);
+                ITask task = mainFactory.TaskFactory.buildTask(this,taskConfiguration);
+                ITask errorTask = mainFactory.TaskFactory.buildTask(this,errorTaskConfiguration);
 
                 TaskLogger.logJobRunnerStart(jobName);
                 SystemLogger.logJobRunnerStart(jobName);
@@ -54,15 +55,15 @@ namespace RukisIntegrationTaskhandlerExtension
 
                         if (JobRunnerHelper.jobCanRetry(context))
                         {
-                            TaskLogger.logRetryRegistering(context.JobDetail.Name, retryInterval);
-                            JobRunnerHelper.registerRetryJob(MainFactory.Current, retryInterval, context.JobDetail);
-                            TaskLogger.logRetryRegistered(context.JobDetail.Name);
+                            TaskLogger.logRetryRegistering(context.JobDetail.Key.Name, retryInterval);
+                            JobRunnerHelper.registerRetryJob(mainFactory, retryInterval, context.JobDetail);
+                            TaskLogger.logRetryRegistered(context.JobDetail.Key.Name);
                         }
                         else
                         {
-                            TaskLogger.logErrorTaskStart(context.JobDetail.Name);
+                            TaskLogger.logErrorTaskStart(context.JobDetail.Key.Name);
                             errorTask.executeTask(taskExecutionContext);
-                            TaskLogger.logErrorTaskEnd(context.JobDetail.Name);
+                            TaskLogger.logErrorTaskEnd(context.JobDetail.Key.Name);
                         }
                     }
                 }
@@ -133,7 +134,7 @@ namespace RukisIntegrationTaskhandlerExtension
                 }
                 else
                 {
-                    TaskLogger.logTaskNameSet(_jobExecutionContext.JobDetail.Name,value);
+                    TaskLogger.logTaskNameSet(_jobExecutionContext.JobDetail.Key.Name,value);
                     JobRunnerHelper.setCurrentTaskName(_jobExecutionContext, value);
                 }
             }
@@ -145,11 +146,26 @@ namespace RukisIntegrationTaskhandlerExtension
             {
                 if (_jobExecutionContext == null)
                 {
-                    throw new JobRunnerException("Unknown","JobName {get}","Interface IJobRunner property JobName called in an non-executing state");
+                    throw new JobRunnerException("Unknown", "JobName {get}", "Interface IJobRunner property JobName called in an non-executing state");
                 }
                 else
                 {
                     return JobRunnerHelper.getJobName(_jobExecutionContext);
+                }
+            }
+        }
+
+        public string LifetimeName
+        {
+            get
+            {
+                if (_jobExecutionContext == null)
+                {
+                    throw new JobRunnerException("Unknown", "LifetimeName {get}", "Interface IJobRunner property LifetimeName called in an non-executing state");
+                }
+                else
+                {
+                    return JobRunnerHelper.getLifetimeName(_jobExecutionContext);
                 }
             }
         }

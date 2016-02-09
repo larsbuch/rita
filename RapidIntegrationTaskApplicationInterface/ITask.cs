@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using RukisIntegrationTaskhandlerInterface.Variables;
+using RapidIntegrationTaskApplicationInterface.Variables;
 
-namespace RukisIntegrationTaskhandlerInterface
+namespace RapidIntegrationTaskApplicationInterface
 {
     public interface ITask
     {

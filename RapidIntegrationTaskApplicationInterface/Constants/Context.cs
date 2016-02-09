@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace RukisIntegrationTaskhandlerInterface.Constants
+namespace RapidIntegrationTaskApplicationInterface.Constants
 {
     public static class Context
     {
@@ -13,5 +13,6 @@ namespace RukisIntegrationTaskhandlerInterface.Constants
         public static readonly string MaxRetry = "MaxRetry";
         public static readonly string RetryInterval = "RetryInterval";
         public static readonly string CurrentTaskName = "CurrentTaskName";
+        public static readonly string LifetimeName = "LifetimeName";
     }
 }

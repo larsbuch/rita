@@ -4,9 +4,9 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using BasicTasks;
-using RukisIntegrationTaskhandlerInterface;
-using RukisIntegrationTaskhandlerInterface.Enumerations;
-using RukisIntegrationTaskhandlerInterface.Exceptions;
+using RapidIntegrationTaskApplicationInterface;
+using RapidIntegrationTaskApplicationInterface.Enumerations;
+using RapidIntegrationTaskApplicationInterface.Exceptions;
 
 namespace GeneralTasks
 {

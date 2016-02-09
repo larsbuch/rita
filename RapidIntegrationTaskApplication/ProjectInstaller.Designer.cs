@@ -1,4 +1,4 @@
-﻿namespace RukisIntegrationTaskhandler
+﻿namespace RapidIntegrationTaskApplication
 {
     partial class ProjectInstaller
     {

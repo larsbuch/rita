@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using RukisIntegrationTaskhandlerInterface;
-using RukisIntegrationTaskhandlerInterface.Constants;
-using RukisIntegrationTaskhandlerInterface.Exceptions;
+using RapidIntegrationTaskApplicationInterface;
+using RapidIntegrationTaskApplicationInterface.Constants;
+using RapidIntegrationTaskApplicationInterface.Exceptions;
 using Common.Logging;
 
-namespace RukisIntegrationTaskhandlerExtension
+namespace RapidIntegrationTaskApplicationExtension
 {
     public class SystemLogger : ISystemLogger
     {
@@ -55,7 +55,7 @@ namespace RukisIntegrationTaskhandlerExtension
             InnerLogger.Info("Service started");
         }
 
-        public void logJobRunnerEnd(string jobName, DateTime? nextRun)
+        public void logJobRunnerEnd(string jobName, DateTimeOffset? nextRun)
         {
             InnerLogger.Info(string.Format("JobRunner ending with job {0}. Next run at {1}", jobName, nextRun));
         }
@@ -95,7 +95,7 @@ namespace RukisIntegrationTaskhandlerExtension
             InnerLogger.Error(string.Format("There is an error in the schedule {0}. Schedule has not been loaded and will not be executed. \n{1}", scheduleName,e.Message));
         }
 
-        public void logScheduleStarted(string jobName, string triggerName, DateTime? nextRun)
+        public void logScheduleStarted(string jobName, string triggerName, DateTimeOffset? nextRun)
         {
             InnerLogger.Debug(string.Format("Job {0} with trigger {1} running next time at {2}", jobName,triggerName,nextRun));
         }

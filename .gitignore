@@ -3,3 +3,5 @@ GeneralTasks/obj/
 RapidIntegrationTaskApplicationExtension/obj/
 RapidIntegrationTaskApplication/bin/
 RapidIntegrationTaskApplication/obj/
+/packages
+/RapidIntegrationTaskApplicationInterface/obj

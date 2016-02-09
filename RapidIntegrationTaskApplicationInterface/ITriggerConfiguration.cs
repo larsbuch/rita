@@ -2,14 +2,14 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using RukisIntegrationTaskhandlerInterface.Enumerations;
+using RapidIntegrationTaskApplicationInterface.Enumerations;
 
-namespace RukisIntegrationTaskhandlerInterface
+namespace RapidIntegrationTaskApplicationInterface
 {
     public interface ITriggerConfiguration
     {
-        DateTime? StartUTCDate { get; }
-        DateTime? EndUTCDate { get; }
+        DateTimeOffset? StartUTCDate { get; }
+        DateTimeOffset? EndUTCDate { get; }
         string Value { get; }
         TriggerType TriggerType { get; }
         IJobSchedule JobSchedule { get; }

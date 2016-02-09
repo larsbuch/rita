@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using RukisIntegrationTaskhandlerInterface.Exceptions;
+using RapidIntegrationTaskApplicationInterface.Exceptions;
 
-namespace RukisIntegrationTaskhandlerInterface
+namespace RapidIntegrationTaskApplicationInterface
 {
     public interface ITaskExecutionContext
     {

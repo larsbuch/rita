@@ -2,16 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using RukisIntegrationTaskhandlerInterface.Exceptions;
+using RapidIntegrationTaskApplicationInterface.Exceptions;
 
-namespace RukisIntegrationTaskhandlerInterface
+namespace RapidIntegrationTaskApplicationInterface
 {
     public interface ITaskLogger
     {
         void logJobRunnerStart(string jobName);
         void logTaskStart(string taskName);
         void logTaskEnd(string taskName);
-        void logJobRunnerEnd(string jobName, DateTime? nextTimeFiring);
+        void logJobRunnerEnd(string jobName, DateTimeOffset? nextTimeFiring);
         void logErrorTaskStart(string taskName);
         void logErrorTaskEnd(string taskName);
         void logTaskResetStart(string taskName);

@@ -2,15 +2,15 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using RukisIntegrationTaskhandlerInterface;
-using RukisIntegrationTaskhandlerInterface.Enumerations;
+using RapidIntegrationTaskApplicationInterface;
+using RapidIntegrationTaskApplicationInterface.Enumerations;
 
-namespace RukisIntegrationTaskhandlerExtension
+namespace RapidIntegrationTaskApplicationExtension
 {
     public class TriggerConfiguration:ITriggerConfiguration
     {
 
-        public TriggerConfiguration(IJobSchedule jobSchedule, TriggerType triggerType, string value, DateTime? startUTCDate, DateTime? endUTCDate)
+        public TriggerConfiguration(IJobSchedule jobSchedule, TriggerType triggerType, string value, DateTimeOffset? startUTCDate, DateTimeOffset? endUTCDate)
         {
             JobSchedule = jobSchedule;
             TriggerType = triggerType;
@@ -19,9 +19,9 @@ namespace RukisIntegrationTaskhandlerExtension
             EndUTCDate = endUTCDate;
         }
         
-        public DateTime? StartUTCDate{ get; protected set;}
+        public DateTimeOffset? StartUTCDate{ get; protected set;}
 
-        public DateTime? EndUTCDate{ get; protected set;}
+        public DateTimeOffset? EndUTCDate{ get; protected set;}
 
         public string Value{ get; protected set;}
 

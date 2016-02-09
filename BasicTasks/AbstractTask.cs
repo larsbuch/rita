@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using RukisIntegrationTaskhandlerInterface;
-using RukisIntegrationTaskhandlerInterface.Constants;
-using RukisIntegrationTaskhandlerInterface.Enumerations;
-using RukisIntegrationTaskhandlerInterface.Exceptions;
-using RukisIntegrationTaskhandlerInterface.Variables;
+using RapidIntegrationTaskApplicationInterface;
+using RapidIntegrationTaskApplicationInterface.Constants;
+using RapidIntegrationTaskApplicationInterface.Enumerations;
+using RapidIntegrationTaskApplicationInterface.Exceptions;
+using RapidIntegrationTaskApplicationInterface.Variables;
 
 namespace BasicTasks
 {
@@ -24,14 +24,13 @@ namespace BasicTasks
         }
 
         public void configure(ITask parentTask, string taskName, IVariableFactory variableFactory, ITaskFactory taskFactory, IJobRunner jobRunner)
-    {
-                    ParentTask = parentTask;
+        {
+            ParentTask = parentTask;
             TaskName = taskName;
             VariableFactory = variableFactory;
             TaskFactory = taskFactory;
             OwningJobRunner = jobRunner;
-
-    }
+        }
 
 
         protected IVariableFactory VariableFactory { get; set; }

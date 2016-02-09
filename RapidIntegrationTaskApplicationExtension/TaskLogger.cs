@@ -2,12 +2,12 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using RukisIntegrationTaskhandlerInterface;
-using RukisIntegrationTaskhandlerInterface.Constants;
-using RukisIntegrationTaskhandlerInterface.Exceptions;
+using RapidIntegrationTaskApplicationInterface;
+using RapidIntegrationTaskApplicationInterface.Constants;
+using RapidIntegrationTaskApplicationInterface.Exceptions;
 using Common.Logging;
 
-namespace RukisIntegrationTaskhandlerExtension
+namespace RapidIntegrationTaskApplicationExtension
 {
     public class TaskLogger:ITaskLogger
     {
@@ -40,7 +40,7 @@ namespace RukisIntegrationTaskhandlerExtension
             InnerLogger.Debug(string.Format("Ending task {0}", taskName));
         }
 
-        public void logJobRunnerEnd(string jobName, DateTime? nextRun)
+        public void logJobRunnerEnd(string jobName, DateTimeOffset? nextRun)
         {
             InnerLogger.Info(string.Format("Ending job {0}. Next run at {1}.", jobName, nextRun));
         }

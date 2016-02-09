@@ -5,13 +5,13 @@ using System.Text;
 using System.Xml;
 using Quartz;
 
-namespace RukisIntegrationTaskhandlerInterface
+namespace RapidIntegrationTaskApplicationInterface
 {
     public interface IJobTriggerFactory
     {
         IMainFactory MainFactory { get; set; }
-        List<Trigger> getJobTriggers(List<ITriggerConfiguration> triggerConfigurations);
-        Trigger getRetryTrigger(string jobName, int retryInterval);
+        List<ITrigger> getJobTriggers(List<ITriggerConfiguration> triggerConfigurations);
+        ITrigger getRetryTrigger(string jobName, int retryInterval);
         List<ITriggerConfiguration> buildTriggerConfigurationList(IJobSchedule jobSchedule,XmlNode xmlNode);
     }
 }

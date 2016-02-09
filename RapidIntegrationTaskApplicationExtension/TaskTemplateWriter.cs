@@ -6,12 +6,12 @@ using System.Net.Mime;
 using System.Reflection;
 using System.Text;
 using System.Xml;
-using RukisIntegrationTaskhandlerInterface;
-using RukisIntegrationTaskhandlerInterface.Constants;
-using RukisIntegrationTaskhandlerInterface.Enumerations;
-using RukisIntegrationTaskhandlerInterface.Exceptions;
+using RapidIntegrationTaskApplicationInterface;
+using RapidIntegrationTaskApplicationInterface.Constants;
+using RapidIntegrationTaskApplicationInterface.Enumerations;
+using RapidIntegrationTaskApplicationInterface.Exceptions;
 
-namespace RukisIntegrationTaskhandlerExtension
+namespace RapidIntegrationTaskApplicationExtension
 {
     public class TaskTemplateWriter : ITaskTemplateWriter
     {
@@ -26,7 +26,7 @@ namespace RukisIntegrationTaskhandlerExtension
                 {
                     if (!Directory.CreateDirectory(fullDirectoryName).Exists)
                     {
-                        throw new RukisIntegrationTaskhandlerException(String.Format("Task Template location {0} does not exist",
+                        throw new RapidIntegrationTaskApplicationException(String.Format("Task Template location {0} does not exist",
                                                                            fullDirectoryName));
                     }
                 }
@@ -46,13 +46,13 @@ namespace RukisIntegrationTaskhandlerExtension
                     FactoryHelper.saveXmlDocument(xmlDocument, fullDirectoryName, pair.Key);
                 }
             }
-            catch (RukisIntegrationTaskhandlerException)
+            catch (RapidIntegrationTaskApplicationException)
             {
                 throw;
             }
             catch (Exception e)
             {
-                throw new RukisIntegrationTaskhandlerException(String.Format("Could not write task templates to {0}", Misc.TaskTemplateFolderPlacement), e);
+                throw new RapidIntegrationTaskApplicationException(String.Format("Could not write task templates to {0}", Misc.TaskTemplateFolderPlacement), e);
             }
         }
 

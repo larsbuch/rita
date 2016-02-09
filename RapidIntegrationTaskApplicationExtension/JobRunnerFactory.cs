@@ -2,11 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using RukisIntegrationTaskhandlerInterface;
-using RukisIntegrationTaskhandlerInterface.Constants;
+using RapidIntegrationTaskApplicationInterface;
+using RapidIntegrationTaskApplicationInterface.Constants;
 using Quartz;
 
-namespace RukisIntegrationTaskhandlerExtension
+namespace RapidIntegrationTaskApplicationExtension
 {
     public class JobRunnerFactory:IJobRunnerFactory
     {
@@ -17,18 +17,17 @@ namespace RukisIntegrationTaskhandlerExtension
             return typeof (JobRunner);
         }
 
-        public JobDetail getNewJobRunner(IJobSchedule jobSchedule)
+        public IJobDetail getNewJobRunner(IJobSchedule jobSchedule)
         {
-            JobDetail jobDetail = new JobDetail(jobSchedule.getJobName(), null, getJobRunnerType());
-
-            JobRunnerHelper.setContext(jobDetail, jobSchedule.getTaskConfiguration(), jobSchedule.getErrorTaskConfiguration(),
+            IJobDetail jobDetail = JobBuilder.Create().WithIdentity(jobSchedule.getJobName()).OfType(getJobRunnerType()).Build();
+            JobRunnerHelper.setContext(MainFactory.LifetimeName, jobDetail, jobSchedule.getTaskConfiguration(), jobSchedule.getErrorTaskConfiguration(),
                                      jobSchedule.getRetryInterval(), jobSchedule.getMaxRetry());
             return jobDetail;
         }
 
-        public JobDetail getNewRetryJobRunner(JobDetail originalJobDetail)
+        public IJobDetail getNewRetryJobRunner(IJobDetail originalJobDetail)
         {
-            string newJobName = originalJobDetail.Name;
+            string newJobName = originalJobDetail.Key.Name;
             if (!newJobName.StartsWith(Task.RetryPrefix))
             {
                 newJobName = Task.RetryPrefix + newJobName + "_1";
@@ -43,8 +42,7 @@ namespace RukisIntegrationTaskhandlerExtension
             // Make random group to avoid clash
             string randomGroupName = System.Guid.NewGuid().ToString();
 
-            JobDetail jobDetail = new JobDetail(newJobName, null, getJobRunnerType());
-            jobDetail.Group = randomGroupName;
+            IJobDetail jobDetail = JobBuilder.Create().WithIdentity(newJobName, randomGroupName).OfType(getJobRunnerType()).Build();
             JobRunnerHelper.makeRetryContext(GetType().Name, jobDetail, originalJobDetail);
             return jobDetail;
         }

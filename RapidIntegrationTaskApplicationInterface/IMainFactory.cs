@@ -3,11 +3,14 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Quartz;
+using Autofac;
 
-namespace RukisIntegrationTaskhandlerInterface
+namespace RapidIntegrationTaskApplicationInterface
 {
-    public interface IMainFactory
+    public interface IMainFactory: IDisposable
     {
+        string LifetimeName { get; }
+        IContainer IoCContainer { get; }
         IScheduler Scheduler { get; }
         ISystemLogger SystemLogger { get; }
         ITaskLogger TaskLogger { get; }
@@ -18,6 +21,5 @@ namespace RukisIntegrationTaskhandlerInterface
         IVariableFactory VariableFactory { get; }
         IVariablePersister VariablePersister { get; }
         void loadAndConfigureFactory();
-        void unloadFactory();
     }
 }

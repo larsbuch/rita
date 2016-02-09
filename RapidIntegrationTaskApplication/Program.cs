@@ -4,7 +4,7 @@ using System.Linq;
 using System.ServiceProcess;
 using System.Text;
 
-namespace RukisIntegrationTaskhandler
+namespace RapidIntegrationTaskApplication
 {
     internal static class Program
     {
@@ -20,7 +20,7 @@ namespace RukisIntegrationTaskhandler
             ServiceBase[] ServicesToRun;
             ServicesToRun = new ServiceBase[]
                                 {
-                                    new RukisIntegrationTaskhandlerService()
+                                    new RapidIntegrationTaskApplicationService()
                                 };
             ServiceBase.Run(ServicesToRun);
 #endif

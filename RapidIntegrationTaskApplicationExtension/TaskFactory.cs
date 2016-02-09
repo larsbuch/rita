@@ -5,12 +5,12 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Xml;
-using RukisIntegrationTaskhandlerInterface;
-using RukisIntegrationTaskhandlerInterface.Constants;
-using RukisIntegrationTaskhandlerInterface.Enumerations;
-using RukisIntegrationTaskhandlerInterface.Exceptions;
+using RapidIntegrationTaskApplicationInterface;
+using RapidIntegrationTaskApplicationInterface.Constants;
+using RapidIntegrationTaskApplicationInterface.Enumerations;
+using RapidIntegrationTaskApplicationInterface.Exceptions;
 
-namespace RukisIntegrationTaskhandlerExtension
+namespace RapidIntegrationTaskApplicationExtension
 {
     public class TaskFactory : ITaskFactory
     {
@@ -48,7 +48,7 @@ namespace RukisIntegrationTaskhandlerExtension
                         }
                     }
                 }
-                catch (RukisIntegrationTaskhandlerException)
+                catch (RapidIntegrationTaskApplicationException)
                 {
                     throw;
                 }
@@ -62,7 +62,7 @@ namespace RukisIntegrationTaskhandlerExtension
             {
                 _taskConfigurationList = createTaskConfigurationList();
             }
-            catch (RukisIntegrationTaskhandlerException)
+            catch (RapidIntegrationTaskApplicationException)
             {
                 throw;
             }
@@ -237,7 +237,7 @@ namespace RukisIntegrationTaskhandlerExtension
                 task.setVariableConfigurations(taskConfiguration.VariableConfigurations);
                 return task;
             }
-            catch (RukisIntegrationTaskhandlerException)
+            catch (RapidIntegrationTaskApplicationException)
             {
                 throw;
             }
@@ -268,7 +268,7 @@ namespace RukisIntegrationTaskhandlerExtension
                 groupTask.ChildTaskConfigurations = buildTaskConfigurations(jobScheduleName, groupTask, xmlNode.ChildNodes);
                 return groupTask;
             }
-            catch (RukisIntegrationTaskhandlerException)
+            catch (RapidIntegrationTaskApplicationException)
             {
                 throw;
             }
@@ -295,7 +295,7 @@ namespace RukisIntegrationTaskhandlerExtension
                 }
                 return taskConfigurations;
             }
-            catch (RukisIntegrationTaskhandlerException)
+            catch (RapidIntegrationTaskApplicationException)
             {
                 throw;
             }
@@ -346,7 +346,7 @@ namespace RukisIntegrationTaskhandlerExtension
                 }
                 return createFullTaskConfiguration(taskConfiguration, owningTaskConfiguration);
             }
-            catch (RukisIntegrationTaskhandlerException)
+            catch (RapidIntegrationTaskApplicationException)
             {
                 throw;
             }

@@ -1,7 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<jobschedules xmlns="RukisIntegrationTaskhandler.jobschedules">
+<jobschedules xmlns="RapidIntegrationTaskApplication.jobschedules">
   <!-- START OF SCHEMA -->
-  <xsd:shema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="RukisIntegrationTaskhandler.jobschedules">
+  <xsd:shema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="RapidIntegrationTaskApplication.jobschedules">
     <xsd:element name="jobschedules">
       <xsd:complexType>
         <xsd:sequence>

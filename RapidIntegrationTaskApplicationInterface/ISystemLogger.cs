@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using RukisIntegrationTaskhandlerInterface.Exceptions;
+using RapidIntegrationTaskApplicationInterface.Exceptions;
 
-namespace RukisIntegrationTaskhandlerInterface
+namespace RapidIntegrationTaskApplicationInterface
 {
     public interface ISystemLogger
     {
@@ -14,7 +14,7 @@ namespace RukisIntegrationTaskhandlerInterface
         void logScheduleListCreated();
         void logTaskFactoryInitialized();
         void logServiceStart();
-        void logJobRunnerEnd(string jobName, DateTime? nextRun);
+        void logJobRunnerEnd(string jobName, DateTimeOffset? nextRun);
         void logJobRunnerStart(string jobName);
         void logJobRunnerError(string message, Exception e);
         void logRetryRegistrationFailed(string jobName, Exception e);
@@ -22,6 +22,6 @@ namespace RukisIntegrationTaskhandlerInterface
         void logRegisteringSchedulesError(Exception e);
         void logTaskTemplateWritten();
         void logScheduleLoadFailed(string scheduleName, TaskConfigurationException e);
-        void logScheduleStarted(string jobName, string triggerName, DateTime? nextRun);
+        void logScheduleStarted(string jobName, string triggerName, DateTimeOffset? nextRun);
     }
 }

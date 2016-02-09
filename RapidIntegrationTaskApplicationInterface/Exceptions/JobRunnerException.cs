@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace RukisIntegrationTaskhandlerInterface.Exceptions
+namespace RapidIntegrationTaskApplicationInterface.Exceptions
 {
-    public class JobRunnerException : RukisIntegrationTaskhandlerException
+    public class JobRunnerException : RapidIntegrationTaskApplicationException
     {
         public JobRunnerException(string jobName, string functionName, string message)
             : base(string.Format("Job: {0} Function: {1} Message: {2}", jobName, functionName, message))

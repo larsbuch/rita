@@ -4,14 +4,14 @@ using System.Linq;
 using System.Text;
 using Quartz;
 
-namespace RukisIntegrationTaskhandlerInterface
+namespace RapidIntegrationTaskApplicationInterface
 {
     public interface IJobRunnerFactory
     {
         IMainFactory MainFactory { get; set; }
         Type getJobRunnerType();
-        JobDetail getNewJobRunner(IJobSchedule jobSchedule);
-        JobDetail getNewRetryJobRunner(JobDetail originalJobDetail);
+        IJobDetail getNewJobRunner(IJobSchedule jobSchedule);
+        IJobDetail getNewRetryJobRunner(IJobDetail originalJobDetail);
         IJobRunner getDummyJobRunner();
     }
 }

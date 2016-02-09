@@ -4,71 +4,69 @@ using System.Globalization;
 using System.Linq;
 using System.Text;
 using System.Xml;
-using RukisIntegrationTaskhandlerInterface;
-using RukisIntegrationTaskhandlerInterface.Constants;
-using RukisIntegrationTaskhandlerInterface.Enumerations;
-using RukisIntegrationTaskhandlerInterface.Exceptions;
+using RapidIntegrationTaskApplicationInterface;
+using RapidIntegrationTaskApplicationInterface.Constants;
+using RapidIntegrationTaskApplicationInterface.Enumerations;
+using RapidIntegrationTaskApplicationInterface.Exceptions;
 using Quartz;
 
-namespace RukisIntegrationTaskhandlerExtension
+namespace RapidIntegrationTaskApplicationExtension
 {
     public class JobTriggerFactory : IJobTriggerFactory
     {
         public IMainFactory MainFactory { get; set; }
 
-        public List<Trigger> getJobTriggers(List<ITriggerConfiguration> triggerConfigurations)
+        public List<ITrigger> getJobTriggers(List<ITriggerConfiguration> triggerConfigurations)
         {
-            List<Trigger> triggers = new List<Trigger>();
+            List<ITrigger> triggers = new List<ITrigger>();
 
             int counter = 1;
             foreach (ITriggerConfiguration triggerConfiguration in triggerConfigurations)
             {
+                DateTimeOffset startTimeUTC;
+                if (triggerConfiguration.StartUTCDate != null && triggerConfiguration.StartUTCDate.HasValue &&
+                    triggerConfiguration.StartUTCDate.Value.CompareTo(DateTime.UtcNow) > 0)
+                {
+                    startTimeUTC = triggerConfiguration.StartUTCDate.Value;
+                }
+                else
+                {
+                    // Start it right away
+                    startTimeUTC = DateBuilder.EvenMinuteDate(DateTime.UtcNow);
+                }
                 // Create Triggers
-                Trigger trigger = null;
+                ITrigger trigger = null;
                 switch (triggerConfiguration.TriggerType)
                 {
                     case TriggerType.CronTrigger:
-                        trigger =
-                            new CronTrigger(
-                                makeTriggerName(triggerConfiguration.JobSchedule.getJobName(), counter), null,
-                                triggerConfiguration.Value);
-                        if (triggerConfiguration.StartUTCDate != null && triggerConfiguration.StartUTCDate.HasValue &&
-                            triggerConfiguration.StartUTCDate.Value.CompareTo(DateTime.UtcNow) > 0)
-                        {
-                            trigger.StartTimeUtc = triggerConfiguration.StartUTCDate.Value;
-                        }
-                        else
-                        {
-                            // Start it right away
-                            trigger.StartTimeUtc = TriggerUtils.GetEvenMinuteDate(DateTime.UtcNow);
-                        }
-                        trigger.EndTimeUtc = triggerConfiguration.EndUTCDate;
-                        trigger.Volatile = true;
+                        trigger = TriggerBuilder.Create()
+                            .WithIdentity(makeTriggerName(triggerConfiguration.JobSchedule.getJobName(), counter))
+                            .WithCronSchedule(triggerConfiguration.Value, x => x.WithMisfireHandlingInstructionFireAndProceed())
+                            .StartAt(startTimeUTC)
+                            .EndAt(triggerConfiguration.EndUTCDate)
+                            .Build();
                         triggers.Add(trigger);
                         break;
                     case TriggerType.StartupTrigger:
-                        trigger =
-                            TriggerUtils.MakeImmediateTrigger(
-                                makeTriggerName(triggerConfiguration.JobSchedule.getJobName(), counter), 0,
-                                TimeSpan.Zero);
-                        trigger.Volatile = true;
+                        trigger = TriggerBuilder.Create()
+                            .WithIdentity(makeTriggerName(triggerConfiguration.JobSchedule.getJobName(), counter))
+                            .WithSchedule(CronScheduleBuilder
+                                .CronSchedule("@reboot")
+                                .WithMisfireHandlingInstructionFireAndProceed())
+                            .StartAt(startTimeUTC)
+                            .EndAt(triggerConfiguration.EndUTCDate)
+                            .Build();
                         triggers.Add(trigger);
                         break;
                     case TriggerType.MinutelyTrigger:
-                        trigger =
-                            TriggerUtils.MakeMinutelyTrigger(
-                                makeTriggerName(triggerConfiguration.JobSchedule.getJobName(), counter));
-                        if (triggerConfiguration.StartUTCDate.HasValue &&
-                            triggerConfiguration.StartUTCDate.Value.CompareTo(DateTime.UtcNow) > 0)
-                        {
-                            trigger.StartTimeUtc = triggerConfiguration.StartUTCDate.Value;
-                        }
-                        else
-                        {
-                            trigger.StartTimeUtc = TriggerUtils.GetEvenMinuteDate(DateTime.UtcNow);
-                        }
-                        trigger.EndTimeUtc = triggerConfiguration.EndUTCDate;
-                        trigger.Volatile = true;
+                        trigger = TriggerBuilder.Create()
+                            .WithIdentity(makeTriggerName(triggerConfiguration.JobSchedule.getJobName(), counter))
+                            .WithSimpleSchedule(x => x
+                                .WithIntervalInMinutes(1)
+                                .WithMisfireHandlingInstructionFireNow())
+                            .StartAt(startTimeUTC)
+                            .EndAt(triggerConfiguration.EndUTCDate)
+                            .Build();
                         triggers.Add(trigger);
                         break;
                     case TriggerType.HourlyTrigger:
@@ -79,21 +77,14 @@ namespace RukisIntegrationTaskhandlerExtension
                                                        string.Format("Could not parse minute value {0}",
                                                                      triggerConfiguration.Value));
                         }
-                        trigger =
-                            TriggerUtils.MakeHourlyTrigger(
-                                makeTriggerName(triggerConfiguration.JobSchedule.getJobName(), counter));
-                        if (triggerConfiguration.StartUTCDate.HasValue &&
-                            triggerConfiguration.StartUTCDate.Value.CompareTo(DateTime.UtcNow) > 0)
-                        {
-                            trigger.StartTimeUtc =
-                                TriggerUtils.GetEvenHourDate(triggerConfiguration.StartUTCDate.Value).AddMinutes(minutes);
-                        }
-                        else
-                        {
-                            trigger.StartTimeUtc = TriggerUtils.GetEvenHourDate(DateTime.UtcNow);
-                        }
-                        trigger.EndTimeUtc = triggerConfiguration.EndUTCDate;
-                        trigger.Volatile = true;
+                        trigger = TriggerBuilder.Create()
+                            .WithIdentity(makeTriggerName(triggerConfiguration.JobSchedule.getJobName(), counter))
+                            .WithSchedule(CronScheduleBuilder
+                                .CronSchedule(string.Format("{0} * * * *", minutes))
+                                .WithMisfireHandlingInstructionFireAndProceed())
+                            .StartAt(DateBuilder.EvenHourDate(startTimeUTC).AddMinutes(minutes))
+                            .EndAt(triggerConfiguration.EndUTCDate)
+                            .Build();
                         triggers.Add(trigger);
                         break;
                     case TriggerType.DailyTrigger:
@@ -106,22 +97,15 @@ namespace RukisIntegrationTaskhandlerExtension
                                                        "Could not parse values in " +
                                                        triggerConfiguration.TriggerType.ToString());
                         }
-                        hour = correctToNonUTCTime(hour);
-                        trigger =
-                            TriggerUtils.MakeDailyTrigger(
-                                makeTriggerName(triggerConfiguration.JobSchedule.getJobName(), counter),
-                                hour, minute);
-                        if (triggerConfiguration.StartUTCDate.HasValue &&
-                            triggerConfiguration.StartUTCDate.Value.CompareTo(DateTime.UtcNow) > 0)
-                        {
-                            trigger.StartTimeUtc = triggerConfiguration.StartUTCDate.Value;
-                        }
-                        else
-                        {
-                            trigger.StartTimeUtc = TriggerUtils.GetEvenMinuteDate(DateTime.UtcNow);
-                        }
-                        trigger.EndTimeUtc = triggerConfiguration.EndUTCDate;
-                        trigger.Volatile = true;
+                        hour = correctToNonUTCTime(hour); // TODO Verify UTC
+                        trigger = TriggerBuilder.Create()
+                            .WithIdentity(makeTriggerName(triggerConfiguration.JobSchedule.getJobName(), counter))
+                            .WithSchedule(CronScheduleBuilder
+                                .DailyAtHourAndMinute(hour, minute)
+                                .WithMisfireHandlingInstructionFireAndProceed())
+                            .StartAt(startTimeUTC)
+                            .EndAt(triggerConfiguration.EndUTCDate)
+                            .Build();
                         triggers.Add(trigger);
                         break;
                     case TriggerType.WeeklyTrigger:
@@ -134,20 +118,15 @@ namespace RukisIntegrationTaskhandlerExtension
                             throw new FactoryException(GetType().Name, "getJobTriggers",
                                 "Could not parse values in " + triggerConfiguration.TriggerType.ToString());
                         }
-                        weekhour = correctToNonUTCTime(weekhour);
-                        trigger = TriggerUtils.MakeWeeklyTrigger(makeTriggerName(triggerConfiguration.JobSchedule.getJobName(), counter),getWeekday(weekday),
-                                weekhour, weekminute);
-
-                        if (triggerConfiguration.StartUTCDate.HasValue && triggerConfiguration.StartUTCDate.Value.CompareTo(DateTime.UtcNow) > 0)
-                        {
-                            trigger.StartTimeUtc = triggerConfiguration.StartUTCDate.Value;
-                        }
-                        else
-                        {
-                            trigger.StartTimeUtc = TriggerUtils.GetEvenMinuteDate(DateTime.UtcNow);
-                        }
-                        trigger.EndTimeUtc = triggerConfiguration.EndUTCDate;
-                        trigger.Volatile = true;
+                        weekhour = correctToNonUTCTime(weekhour); // TODO Verify UTC
+                        trigger = TriggerBuilder.Create()
+                            .WithIdentity(makeTriggerName(triggerConfiguration.JobSchedule.getJobName(), counter))
+                            .WithSchedule(CronScheduleBuilder
+                                .WeeklyOnDayAndHourAndMinute(getWeekday(weekday), weekhour, weekminute)
+                                .WithMisfireHandlingInstructionFireAndProceed())
+                            .StartAt(startTimeUTC)
+                            .EndAt(triggerConfiguration.EndUTCDate)
+                            .Build();
                         triggers.Add(trigger);
                         break;
                     default:
@@ -205,17 +184,14 @@ namespace RukisIntegrationTaskhandlerExtension
             return hour;
         }
 
-        public Trigger getRetryTrigger(string jobName, int retryInterval)
+        public ITrigger getRetryTrigger(string jobName, int retryInterval)
         {
             // Create trigger name and group
             string triggerName = makeTriggerName(jobName, 0);
             string triggerGroup = System.Guid.NewGuid().ToString();
 
             // Create Trigger for running once
-            Trigger trigger = new SimpleTrigger(triggerName, null, DateTime.UtcNow.AddMinutes(retryInterval), null,
-                                                0, TimeSpan.Zero);
-            trigger.Group = triggerGroup;
-            trigger.Volatile = true;
+            ITrigger trigger = TriggerBuilder.Create().WithIdentity(triggerName, triggerGroup).WithSimpleSchedule(x => x.WithIntervalInMinutes(retryInterval)).Build();
             return trigger;
         }
 

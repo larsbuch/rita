@@ -3,10 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading;
-using RukisIntegrationTaskhandlerExtension;
-using RukisIntegrationTaskhandlerInterface;
+using RapidIntegrationTaskApplicationExtension;
+using RapidIntegrationTaskApplicationInterface;
 
-namespace RukisIntegrationTaskhandler
+namespace RapidIntegrationTaskApplication
 {
     public class DummyService
     {
@@ -14,7 +14,7 @@ namespace RukisIntegrationTaskhandler
 
         public DummyService()
         {
-            Factory = MainFactory.Current;
+            Factory = MainFactory.GetMainFactory("DummyService");
         }
 
         public void Run()
@@ -42,7 +42,7 @@ namespace RukisIntegrationTaskhandler
 
         protected void OnStop()
         {
-            Factory.unloadFactory();
+            Factory.Dispose();
         }
     }
 }

@@ -1,6 +1,6 @@
-﻿namespace RukisIntegrationTaskhandler
+﻿namespace RapidIntegrationTaskApplication
 {
-    partial class RukisIntegrationTaskhandlerService
+    partial class RapidIntegrationTaskApplicationService
     {
         /// <summary> 
         /// Required designer variable.
@@ -29,9 +29,9 @@
         private void InitializeComponent()
         {
             // 
-            // RukisIntegrationTaskhandlerService
+            // RapidIntegrationTaskApplicationService
             // 
-            this.ServiceName = "RukisIntegrationTaskhandlerService";
+            this.ServiceName = "RapidIntegrationTaskApplicationService";
 
         }
 
