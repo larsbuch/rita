@@ -16,9 +16,11 @@ namespace RapidIntegrationTaskApplicationExtension
         private ISystemLogger _systemLogger = null;
         private IJobExecutionContext _jobExecutionContext = null;
 
-        public void Execute(IJobExecutionContext context)
-        {
-            try
+
+
+    public async System.Threading.Tasks.Task Execute(IJobExecutionContext context)
+    {
+        try
             {
                 // Set initial values
                 _jobExecutionContext = context;

@@ -71,10 +71,10 @@ namespace RapidIntegrationTaskApplicationExtension
             _iocContainer = builder.Build();
         }
 
-        private void configureFactory()
+        private async void configureFactory()
         {
             ISchedulerFactory scheduleFactory = _iocContainer.Resolve<ISchedulerFactory>();
-            _scheduler = scheduleFactory.GetScheduler();
+            _scheduler = await scheduleFactory.GetScheduler().ConfigureAwait(continueOnCapturedContext: false);
             _systemLogger = _iocContainer.Resolve<ISystemLogger>();
             _taskLogger = _iocContainer.Resolve<ITaskLogger>();
             _jobScheduleFactory = _iocContainer.Resolve<IJobScheduleFactory>();

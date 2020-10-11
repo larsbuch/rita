@@ -5,12 +5,13 @@ using System.Text;
 using RapidIntegrationTaskApplicationInterface;
 using RapidIntegrationTaskApplicationInterface.Exceptions;
 using Quartz;
+using System.Threading.Tasks;
 
 namespace RapidIntegrationTaskApplicationExtension
 {
     public class JobRunnerDummy : IJobRunner
     {
-        public void Execute(IJobExecutionContext context)
+        Task IJob.Execute(IJobExecutionContext context)
         {
             throw new JobRunnerException(JobName, "Execute", "Executing is not allowed");
         }
